@@ -1,0 +1,65 @@
+/* Query1 */
+SELECT  G.GenreId AS Genre_ID, G.Name AS Genre_name,
+round(SUM(i.Quantity * i.UnitPrice),2) AS Total_track_sales
+
+FROM Track t
+JOIN InvoiceLine i
+ON i.TrackId = i.TrackId
+JOIN Genre G
+ON G.GenreId = t.GenreId
+Group By Genre_name
+ORDER BY Total_track_sales DESC
+
+
+/** Query 2 **/
+SELECT
+ t.TrackId, G.Name,
+ COUNT(G.Name) AS Gentre_count
+
+FROM InvoiceLine i
+
+JOIN Track t
+
+ON t.TrackId = i.TrackId
+
+JOIN  Genre G
+
+ON G.GenreId = t.GenreId
+
+JOIN Invoice v
+
+ON v.InvoiceId = i.InvoiceId
+
+GROUP By G.Name
+
+ORDER  BY Gentre_count DESC
+
+/* Query3 **/
+select c.CustomerId,
+c.FirstName || " " || c.LastName AS Customer_fullname,
+sum(inv.UnitPrice) as invoices
+from Invoice i
+join InvoiceLine inv
+on inv.Invoiceid = i.Invoiceid
+join customer c
+on c.customerid = i.customerid
+group by c.CustomerId,c.FirstName,c.LastName
+order by invoices desc
+limit 20
+
+/** Query 4 */
+SELECT i.BillingCountry AS Country_name, 
+round(SUM(inv.UnitPrice * inv.Quantity),2) AS Total_sales_per_country
+
+FROM Invoice i
+JOIN InvoiceLine inv
+ON inv.InvoiceId = i.InvoiceId
+GROUP BY Country_name
+ORDER BY Total_sales_per_country DESC
+LIMIT 10;
+
+
+
+
+
+
